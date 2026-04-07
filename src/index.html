@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Калькулятор достоверности конверсии</title>
+  <meta name="description" content="Оцените достоверность наблюдаемой конверсии и спрогнозируйте точность при увеличении выборки.">
+  <meta property="og:title" content="Калькулятор достоверности конверсии">
+  <meta property="og:description" content="Оцените достоверность наблюдаемой конверсии и спрогнозируйте точность при увеличении выборки.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/og-image.png">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="calculator" aria-live="polite">
+
+    <!-- Input block -->
+    <div class="card">
+      <div class="input-group">
+
+        <div>
+          <div class="input-row">
+            <label for="n-num">Количество диалогов</label>
+            <input type="number" id="n-num" value="300" min="1" max="100000">
+          </div>
+          <label for="n-input" class="sr-only">Количество диалогов (слайдер)</label>
+          <input type="range" id="n-input" min="10" max="3000" step="10" value="300">
+        </div>
+
+        <div>
+          <div class="input-row">
+            <label for="p-num">Конверсия в целевое действие, %</label>
+            <input type="number" id="p-num" value="20" min="0" max="100" step="0.1">
+          </div>
+          <label for="p-input" class="sr-only">Конверсия (слайдер)</label>
+          <input type="range" id="p-input" min="0" max="1000" step="1" value="200">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Confidence interval block -->
+    <div class="card card--bordered">
+      <div class="ci-header">Реальная конверсия с вероятностью 95% находится в этом диапазоне</div>
+
+      <div class="ci-values">
+        <div class="ci-value--lo">
+          <div class="ci-value-label">Минимум</div>
+          <div class="ci-value-number" id="lo-out">15.9%</div>
+        </div>
+        <div class="ci-value--center">
+          <div class="ci-value-label">Наблюдаемая</div>
+          <div class="ci-value-number" id="rate-out">20.0%</div>
+        </div>
+        <div class="ci-value--hi">
+          <div class="ci-value-label">Максимум</div>
+          <div class="ci-value-number" id="hi-out">24.8%</div>
+        </div>
+      </div>
+
+      <div class="ci-bar-wrap">
+        <div class="ci-bar-track"></div>
+        <div class="ci-bar-fill" id="ci-bar"></div>
+        <div class="ci-bar-marker" id="ci-marker"></div>
+        <div class="ci-bar-label">0%</div>
+        <div class="ci-bar-label ci-bar-label--right">100%</div>
+      </div>
+    </div>
+
+    <!-- Verdict block -->
+    <div class="verdict-card" id="verdict-card">
+      <div class="verdict-header">
+        <div class="verdict-dot" id="verdict-dot"></div>
+        <div class="verdict-title" id="verdict-title">Можно масштабировать в 3–5 раз</div>
+      </div>
+      <div class="verdict-text" id="verdict-text">Считай экономику от минимума 15.9%. Если сходится — масштабируй. На каждой ступени пересчитывай.</div>
+    </div>
+
+    <!-- Breakpoints block -->
+    <div class="card card--bordered">
+      <div class="breakpoints-header">Что будет с точностью при увеличении выборки</div>
+      <div class="breakpoints-list" id="breakpoints"></div>
+    </div>
+
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
