@@ -66,27 +66,30 @@
 
     var title, text, color, bg;
 
+    var relError = p > 0 ? (ci.hi - ci.lo) / p : Infinity;
+
+    // Verdict by worst of: absolute margin OR relative error
     if (n < 100) {
       title = 'Данных мало \u2014 масштабировать нельзя';
       text = 'Только для решения \u00abпродолжать тест или закрыть гипотезу\u00bb. Добери минимум до 300 диалогов.';
       color = 'var(--danger-text)';
       bg = 'var(--danger-bg)';
-    } else if (margin > 7) {
+    } else if (margin > 8 || relError > 1.0) {
       title = 'Грубая прикидка';
       text = 'Видно, работает ли воронка в принципе. Решений о масштабе ещё рано \u2014 продолжай набирать объём.';
       color = 'var(--danger-text)';
       bg = 'var(--danger-bg)';
-    } else if (margin > 4.5) {
+    } else if (margin > 5 || relError > 0.6) {
       title = 'Можно масштабировать в 3\u20135 раз';
       text = 'Считай экономику от минимума ' + (ci.lo * 100).toFixed(1) + '%. Если сходится \u2014 масштабируй. На каждой ступени пересчитывай.';
       color = 'var(--warning-text)';
       bg = 'var(--warning-bg)';
-    } else if (margin > 3) {
+    } else if (margin > 3.5 || relError > 0.4) {
       title = 'Можно масштабировать в 5\u201310 раз';
       text = 'Точность рабочая. Закладывай в экономику ' + (ci.lo * 100).toFixed(1) + '% и масштабируй ступенями.';
       color = 'var(--warning-text)';
       bg = 'var(--warning-bg)';
-    } else if (margin > 2) {
+    } else if (margin > 2.5 || relError > 0.25) {
       title = 'Уверенно можно масштабировать в 10+ раз';
       text = 'Точность высокая. Главный риск теперь \u2014 внешний: истощение базы, смена сегмента, время суток.';
       color = 'var(--success-text)';
